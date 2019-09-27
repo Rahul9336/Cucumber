@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -48,7 +49,7 @@ public class Search {
 	@When("^User click  on the dropdown suggestion \"([^\"]*)\"$")
 	public void user_click_on_the_dropdown_suggestion(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
-		driver.findElement(By.name("products")).sendKeys(Keys.DOWN);
+		driver.findElement(By.name("products")).sendKeys(Keys.ARROW_DOWN);
 	}
 
 	@When("^Click on link Find Details$")
@@ -134,7 +135,13 @@ public class Search {
 	@When("^User Try to Move to CheckOut page$")
 	public void user_Try_to_Move_to_CheckOut_page() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
-	    
+		try{
+		Assert.assertEquals(false,driver.findElement(By.partialLinkText("Cart")).isEnabled());}
+		catch(NoSuchElementException exp){
+			Assert.assertEquals(true, true);
+		}finally{
+			System.out.println("User Try to Make Wrong Action");
+		}
 	}
 
 	@Then("^User Does not get Checkout Page and Test Terminated$")
